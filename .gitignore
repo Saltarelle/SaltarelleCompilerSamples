@@ -25,3 +25,9 @@ obj/
 [Rr]elease*/
 _ReSharper*/
 [Tt]est[Rr]esult*
+
+NodeJS/HelloWorld/HelloWorld/node_modules/mscorlib.js
+NodeJS/ModularizedNodeJSFileBrowser/ModularizedNodeJSFileBrowser/node_modules/DirectoryEnumerator.js
+NodeJS/ModularizedNodeJSFileBrowser/ModularizedNodeJSFileBrowser/node_modules/mscorlib.js
+NodeJS/SimpleNodeJSFileBrowser/SimpleNodeJSFileBrowser/node_modules/mscorlib.js
+Web/HelloWorld/HelloWorldWeb/Scripts/HelloWorldScript.js
