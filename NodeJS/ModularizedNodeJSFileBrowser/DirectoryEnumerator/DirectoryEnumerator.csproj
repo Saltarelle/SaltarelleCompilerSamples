@@ -40,14 +40,15 @@
   </ItemGroup>
   <ItemGroup>
     <Reference Include="mscorlib">
-      <HintPath>$(SolutionDir)packages\Saltarelle.Runtime.1.5.0\tools\Assemblies\mscorlib.dll</HintPath>
+      <HintPath>$(SolutionDir)packages\Saltarelle.Runtime.1.5.1\tools\Assemblies\mscorlib.dll</HintPath>
     </Reference>
-    <Reference Include="Script.NodeJS">
-      <HintPath>..\..\..\packages\Saltarelle.NodeJS.1.5.0\lib\Script.NodeJS.dll</HintPath>
+    <Reference Include="Script.NodeJS, Version=1.5.0.0, Culture=neutral, PublicKeyToken=8fc0e3af5abcb6c4, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\packages\Saltarelle.NodeJS.1.5.1\lib\Script.NodeJS.dll</HintPath>
     </Reference>
   </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" Condition="!Exists('$(SolutionDir)packages\Saltarelle.Compiler.1.5.0\tools\Saltarelle.Compiler.targets')" />
-  <Import Project="$(SolutionDir)packages\Saltarelle.Compiler.1.5.0\tools\Saltarelle.Compiler.targets" Condition="Exists('$(SolutionDir)packages\Saltarelle.Compiler.1.5.0\tools\Saltarelle.Compiler.targets')" />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" Condition="!Exists('$(SolutionDir)packages\Saltarelle.Compiler.1.5.1\tools\Saltarelle.Compiler.targets')" />
+  <Import Project="$(SolutionDir)packages\Saltarelle.Compiler.1.5.1\tools\Saltarelle.Compiler.targets" Condition="Exists('$(SolutionDir)packages\Saltarelle.Compiler.1.5.1\tools\Saltarelle.Compiler.targets')" />
   <PropertyGroup>
     <PostBuildEvent>copy "$(TargetDir)$(TargetName).js" "$(ProjectDir)..\ModularizedNodeJSFileBrowser\node_modules"</PostBuildEvent>
   </PropertyGroup>

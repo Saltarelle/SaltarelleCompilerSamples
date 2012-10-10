@@ -41,26 +41,27 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="mscorlib">
-      <HintPath>$(SolutionDir)packages\Saltarelle.Runtime.1.5.0\tools\Assemblies\mscorlib.dll</HintPath>
-    </Reference>
-    <Reference Include="Script.NodeJS">
-      <HintPath>..\..\..\packages\Saltarelle.NodeJS.1.5.0\lib\Script.NodeJS.dll</HintPath>
-    </Reference>
-  </ItemGroup>
-  <ItemGroup>
     <Content Include="node.exe" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="node_modules\" />
   </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" Condition="!Exists('$(SolutionDir)packages\Saltarelle.Compiler.1.5.0\tools\Saltarelle.Compiler.targets')" />
-  <Import Project="$(SolutionDir)packages\Saltarelle.Compiler.1.5.0\tools\Saltarelle.Compiler.targets" Condition="Exists('$(SolutionDir)packages\Saltarelle.Compiler.1.5.0\tools\Saltarelle.Compiler.targets')" />
+  <ItemGroup>
+    <Reference Include="mscorlib">
+      <HintPath>$(SolutionDir)packages\Saltarelle.Runtime.1.5.1\tools\Assemblies\mscorlib.dll</HintPath>
+    </Reference>
+    <Reference Include="Script.NodeJS, Version=1.5.0.0, Culture=neutral, PublicKeyToken=8fc0e3af5abcb6c4, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\packages\Saltarelle.NodeJS.1.5.1\lib\Script.NodeJS.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" Condition="!Exists('$(SolutionDir)packages\Saltarelle.Compiler.1.5.1\tools\Saltarelle.Compiler.targets')" />
+  <Import Project="$(SolutionDir)packages\Saltarelle.Compiler.1.5.1\tools\Saltarelle.Compiler.targets" Condition="Exists('$(SolutionDir)packages\Saltarelle.Compiler.1.5.1\tools\Saltarelle.Compiler.targets')" />
   <Target Name="BeforeBuild">
     <ItemGroup>
-      <MscorlibScript Include="$(SolutionDir)packages\**\mscorlib.js"/>
+      <MscorlibScript Include="$(SolutionDir)packages\**\mscorlib.js" />
     </ItemGroup>
-    <Copy SourceFiles="@(MscorlibScript)" DestinationFolder="$(ProjectDir)node_modules"/>
+    <Copy SourceFiles="@(MscorlibScript)" DestinationFolder="$(ProjectDir)node_modules" />
   </Target>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
