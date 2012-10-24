@@ -1,0 +1,24 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>@ViewBag.Title</title>
+    <link href="@Url.Content("~/Content/Site.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Content/jquery-ui-css/smoothness/jquery-ui-1.8.24.css")" rel="stylesheet" type="text/css" />
+    <script src="@Url.Content("~/Scripts/jquery-1.8.2.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/jquery-ui-1.9.0.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/mscorlib.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/InteractiveJQueryUIScript.js")" type="text/javascript"></script>
+</head>
+<body>
+    <div class="page">
+        <div id="header">
+            <div id="title">
+                <h1>Saltarelle Interactive jQuery UI Sample</h1>
+            </div>
+        </div>
+        <div id="main">
+            @RenderBody()
+        </div>
+    </div>
+</body>
+</html>

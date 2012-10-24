@@ -1,0 +1,17 @@
+﻿@model InteractiveJQueryUIWeb.Models.CustomerViewModel
+@{
+    ViewBag.Title = "EditCustomer";
+}
+
+<form id="customerForm" method="POST" action="/Home/SaveCustomer">
+	<dl>
+		<dt>Name</dt>
+        <dd>@Html.TextBoxFor(m => m.Name, new { id = "customerName" })</dd>
+
+		<dt>Profit to Date</dt>
+        <dd>@Html.TextBoxFor(m => m.ProfitToDate, new { id = "customerProfitToDate" })</dd>
+	</dl>
+    @Html.HiddenFor(m => m.Id, new { id = "customerId" })
+    <button type="button" id="customerSave">Save</button>
+    <button type="button" id="customerCancel">Cancel</button>
+</form>
