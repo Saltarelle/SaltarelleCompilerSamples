@@ -274,19 +274,11 @@ var $OfficialSamplesScript_Person_PersonViewModel = function() {
 	this.firstName = null;
 	this.lastName = null;
 	this.fullName = null;
-	var self = this;
 	this.firstName = ko.observable('Matthew');
 	this.lastName = ko.observable('Leibowitz');
-	// Note: 
-	// Here are two ways to pass the correct 'this' to the function:
-	// 1. using a variable:
-	this.fullName = ko.computed(function() {
-		return self.firstName() + ' ' + self.lastName();
-	});
-	// 2. or using the Delegate.ThisFix:
-	//FullName = Knockout.Computed(Delegate.ThisFix((PersonViewModel correct) => {
-	//	return correct.FirstName.Get() + " " + correct.LastName.Get();
-	//}), this);
+	this.fullName = ko.computed(Function.mkdel(this, function() {
+		return this.firstName() + ' ' + this.lastName();
+	}));
 	// AND, there is way to perform the updates to the computed object
 	//var options = new DependentObservableOptions<string>();
 	//options.GetValueFunction = () => self.FirstName.Value + " " + self.LastName.Value;
@@ -510,7 +502,7 @@ var $OfficialSamplesScript_Twitter_TwitterViewModel = function(lists, selectedLi
 };
 $OfficialSamplesScript_Twitter_TwitterViewModel.prototype = {
 	onSaveChanges: function() {
-		var saveAs = window.prompt('Erik K�ll�n', this.editingList.name());
+		var saveAs = window.prompt('Save User List:', this.editingList.name());
 		if (ss.isValue(saveAs)) {
 			var dataToSave = this.editingList.userNames().slice(0);
 			var existingSavedList = this.findSavedList(saveAs);

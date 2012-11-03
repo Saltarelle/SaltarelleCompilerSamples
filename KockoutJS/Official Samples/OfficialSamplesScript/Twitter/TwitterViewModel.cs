@@ -82,7 +82,7 @@ namespace OfficialSamplesScript.Twitter
 
         public void OnSaveChanges()
         {
-            var saveAs = Window.Prompt("Erik Källén", this.EditingList.Name.Value);
+            var saveAs = Window.Prompt("Save User List:", this.EditingList.Name.Value);
             if (saveAs != null)
             {
                 var dataToSave = (string[])this.EditingList.UserNames.Value.Slice(0);

@@ -12,23 +12,9 @@ namespace OfficialSamplesScript.Person
     {
         public PersonViewModel()
         {
-            var self = this;
-
             this.FirstName = Knockout.Observable("Matthew");
             this.LastName = Knockout.Observable("Leibowitz");
-
-            // Note: 
-            // Here are two ways to pass the correct 'this' to the function:
-
-            // 1. using a variable:
-
-            this.FullName = Knockout.Computed(() => self.FirstName.Value + " " + self.LastName.Value);
-
-            // 2. or using the Delegate.ThisFix:
-
-            //FullName = Knockout.Computed(Delegate.ThisFix((PersonViewModel correct) => {
-            //	return correct.FirstName.Get() + " " + correct.LastName.Get();
-            //}), this);
+            this.FullName = Knockout.Computed(() => this.FirstName.Value + " " + this.LastName.Value);
 
             // AND, there is way to perform the updates to the computed object
 
