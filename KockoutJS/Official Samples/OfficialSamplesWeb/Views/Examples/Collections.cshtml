@@ -1,0 +1,44 @@
+﻿@{
+    ViewBag.Title = "Working with Collections";
+}
+
+<hgroup class="title">
+    <h1>@ViewBag.Title.</h1>
+    <script type="text/javascript">
+        $(function () {
+            ko.applyBindings(new $OfficialSamplesScript_WorkingWithCollections_WorkingWithCollectionsViewModel());
+        });
+    </script>
+</hgroup>
+
+<article>
+	<p>
+		<a href="http://knockoutjs.com/examples/collections.html">Knockout Js example</a>.
+	</p>
+
+	<h3>People</h3>
+	<ul data-bind="foreach: people">
+		<li>
+			<div>
+				<span data-bind="text: name"> </span> has <span data-bind='text: children().length'>&nbsp;</span> children:
+				<a href='#' data-bind='click: addChild '>Add child</a>
+				<span class='renderTime' data-bind='visible: $root.showRenderTimes'>
+					(person rendered at <span data-bind='text: new Date().getSeconds()' > </span>)
+				</span>
+			</div>
+			<ul data-bind="foreach: children">
+				<li>
+					<span data-bind="text: $data"> </span>
+					<span class='renderTime' data-bind='visible: $root.showRenderTimes'>
+						(child rendered at <span data-bind='text: new Date().getSeconds()' > </span>)
+					</span>
+				</li>
+			</ul>
+		</li>
+	</ul>
+	<label>
+		<input data-bind='checked: showRenderTimes' type='checkbox' /> Show render times
+	</label> 
+</article>
+
+

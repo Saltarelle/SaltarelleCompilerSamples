@@ -1,0 +1,48 @@
+﻿@{
+    ViewBag.Title = "Gifts";
+}
+
+<hgroup class="title">
+    <h1>@ViewBag.Title.</h1>
+    <script type="text/javascript">
+        $(function () {
+            $OfficialSamplesScript_Gifts_GiftsSetupScript.setup();
+        });
+    </script>
+</hgroup>
+
+<article>
+	<p>
+		<a href="http://knockoutjs.com/examples/gridEditor.html">Knockout Js example</a>.
+	</p>
+
+    <form action='/someServerSideHandler'>
+    <p>You have asked for <span data-bind='text: gifts().length'>&nbsp;</span> gift(s)
+    </p>
+    <table data-bind='visible: gifts().length > 0'>
+        <thead>
+            <tr>
+                <th>Gift name</th>
+                <th>Price</th>
+                <th />
+            </tr>
+        </thead>
+        <tbody data-bind='foreach: gifts'>
+            <tr>
+                <td>
+                    <input class='required' data-bind='value: name, uniqueName: true' /></td>
+                <td>
+                    <input class='required number' data-bind='value: price, uniqueName: true' />
+                </td>
+                <td><a href='#' data-bind='click: $root.removeGift'>Delete</a></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <button data-bind='click: addGift'>Add Gift</button>
+    <button data-bind='enable: gifts().length > 0' type='submit'>Submit</button>
+    </form>
+
+</article>
+
+
