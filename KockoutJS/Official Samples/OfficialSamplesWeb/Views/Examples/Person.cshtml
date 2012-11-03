@@ -1,0 +1,24 @@
+﻿@{
+    ViewBag.Title = "Person";
+}
+
+<hgroup class="title">
+    <h1>@ViewBag.Title.</h1>
+    <script type="text/javascript">
+        $(function () {
+            ko.applyBindings(new $OfficialSamplesScript_Person_PersonViewModel());
+        });
+    </script>
+</hgroup>
+
+<article>
+	<p>
+		<a href="http://knockoutjs.com/examples/helloWorld.html">Knockout Js example</a>.
+	</p>
+
+	<p>First name: <input data-bind="value: firstName" /></p>
+	<p>Last name: <input data-bind="value: lastName" /></p>
+	<h2>Hello, <span data-bind="text: fullName"> </span>!</h2>
+</article>
+
+
