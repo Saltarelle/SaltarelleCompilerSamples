@@ -1,0 +1,27 @@
+﻿@{
+    ViewBag.Title = "Simple List";
+}
+
+<hgroup class="title">
+    <h1>@ViewBag.Title.</h1>
+    <script type="text/javascript">
+        $(function () {
+            ko.applyBindings(new OfficialSamplesScript.SimpleList.SimpleListViewModel(['Alpha', 'Beta', 'Gamma']));
+        });
+    </script>
+</hgroup>
+
+<article>
+    <p>
+        <a href="http://knockoutjs.com/examples/simpleList.html">Knockout Js example</a>.
+    </p>
+
+	<form data-bind="submit: addItem">
+		New item: <input data-bind='value: itemToAdd, valueUpdate: "afterkeydown"' />
+		<button type="submit" data-bind="enable: itemToAdd().length > 0">Add</button>
+		<p>Your items:</p>
+		<select multiple="multiple" width="50" data-bind="options: items"> </select>
+	</form>
+</article>
+
+

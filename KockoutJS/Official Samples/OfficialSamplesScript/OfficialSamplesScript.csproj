@@ -1,0 +1,93 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{605E5F65-256C-4738-AAEB-08AA872E5D81}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>OfficialSamplesScript</RootNamespace>
+    <AssemblyName>OfficialSamplesScript</AssemblyName>
+    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <NoStdLib>True</NoStdLib>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="AnimatedTransitions\AnimatedTransitionsViewModel.cs" />
+    <Compile Include="BetterList\BetterListViewModel.cs" />
+    <Compile Include="jQueryExtensions\jQueryExtensions.cs" />
+    <Compile Include="jQueryExtensions\jQueryEx.cs" />
+    <Compile Include="ShoppingCart\CartLineViewModel.cs" />
+    <Compile Include="ShoppingCart\CartViewModel.cs" />
+    <Compile Include="ClickCounter\ClickCounterViewModel.cs" />
+    <Compile Include="Contacts\Contact.cs" />
+    <Compile Include="Contacts\ContactsViewModel.cs" />
+    <Compile Include="ControlTypes\ControlTypesViewModel.cs" />
+    <Compile Include="PagedGrid\Data.cs" />
+    <Compile Include="ShoppingCart\DataSourceModels.cs" />
+    <Compile Include="Gifts\GiftSetupScript.cs" />
+    <Compile Include="Gifts\Gift.cs" />
+    <Compile Include="Gifts\GiftViewModel.cs" />
+    <Compile Include="PagedGrid\PagedGridViewModel.cs" />
+    <Compile Include="Person\PersonViewModel.cs" />
+    <Compile Include="Contacts\Phone.cs" />
+    <Compile Include="AnimatedTransitions\Planet.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ShoppingCart\SaveableProduct.cs" />
+    <Compile Include="jQueryExtensions\SimpleGrid.cs" />
+    <Compile Include="SimpleList\SimpleList.cs" />
+    <Compile Include="Twitter\SetupScripts.cs" />
+    <Compile Include="Twitter\TweetGroup.cs" />
+    <Compile Include="jQueryExtensions\twitterApi.cs" />
+    <Compile Include="Twitter\TwitterViewModel.cs" />
+    <Compile Include="WorkingWithCollections\Person.cs" />
+    <Compile Include="WorkingWithCollections\WorkingWithCollectionsViewModel.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="mscorlib">
+      <HintPath>$(SolutionDir)packages\Saltarelle.Runtime.1.5.2\tools\Assemblies\mscorlib.dll</HintPath>
+    </Reference>
+    <Reference Include="Script.jQuery">
+      <HintPath>..\..\..\packages\Saltarelle.jQuery.1.5.2\lib\Script.jQuery.dll</HintPath>
+    </Reference>
+    <Reference Include="Script.Knockout">
+      <HintPath>..\..\..\packages\Saltarelle.Knockout.1.5.2\lib\Script.Knockout.dll</HintPath>
+    </Reference>
+    <Reference Include="Script.Web">
+      <HintPath>..\..\..\packages\Saltarelle.Web.1.5.2\lib\Script.Web.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" Condition="!Exists('$(SolutionDir)packages\Saltarelle.Compiler.1.5.2\tools\Saltarelle.Compiler.targets')" />
+  <Import Project="$(SolutionDir)packages\Saltarelle.Compiler.1.5.2\tools\Saltarelle.Compiler.targets" Condition="Exists('$(SolutionDir)packages\Saltarelle.Compiler.1.5.2\tools\Saltarelle.Compiler.targets')" />
+  <PropertyGroup>
+    <PostBuildEvent>copy "$(TargetDir)$(TargetName).js" "$(SolutionDir)KockoutJS\Official Samples\OfficialSamplesWeb\Scripts"</PostBuildEvent>
+  </PropertyGroup>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

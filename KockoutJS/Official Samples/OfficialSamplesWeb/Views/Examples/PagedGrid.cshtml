@@ -1,0 +1,40 @@
+﻿@{
+    ViewBag.Title = "Paged Grid";
+}
+
+<hgroup class="title">
+    <h1>@ViewBag.Title.</h1>
+    <script type="text/javascript">
+        $(function () {
+            var InitialData = [
+                { name: 'Well-Travelled Kitten', sales: 352, price: 75.95 },
+                { name: 'Speedy Coyote', sales: 89, price: 190 },
+                { name: 'Furious Lizard', sales: 152, price: 25 },
+                { name: 'Indifferent Monkey', sales: 1, price: 99.95 },
+                { name: 'Brooding Dragon', sales: 0, price: 6350 },
+                { name: 'Ingenious Tadpole', sales: 39450, price: 0.35 },
+                { name: 'Optimistic Snail', sales: 420, price: 1.5 }];
+
+            ko.applyBindings(new OfficialSamplesScript.PagedGrid.PagedGridViewModel(InitialData));
+        });
+    </script>
+</hgroup>
+
+<article>
+	<p>
+		<a href="http://knockoutjs.com/examples/grid.html">Knockout Js example</a>.
+	</p>
+
+	<div data-bind='simpleGrid: gridViewModel'> </div>
+	<button data-bind='click: addItem'>
+		Add item
+	</button>
+	<button data-bind='click: sortByName'>
+		Sort by name
+	</button>
+	<button data-bind='click: jumpToFirstPage, enable: gridViewModel.currentPageIndex'>
+		Jump to first page
+	</button> 
+</article>
+
+

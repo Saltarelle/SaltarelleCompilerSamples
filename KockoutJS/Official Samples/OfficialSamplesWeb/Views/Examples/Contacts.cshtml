@@ -1,0 +1,76 @@
+﻿@{
+    ViewBag.Title = "Contacts";
+}
+
+<hgroup class="title">
+    <h1>@ViewBag.Title.</h1>
+
+    <script type="text/javascript">
+        var InitialData = [{
+            firstName: 'Danny',
+            lastName: 'LaRusso',
+            phones: ko.observableArray([
+                { type: 'Mobile', number: '(555) 121-2121' },
+                { type: 'Home', number: '(555) 123-4567' }])
+        }, {
+            firstName: 'Sensei',
+            lastName: 'Miyagi',
+            phones: ko.observableArray([
+                { type: 'Mobile', number: '(555) 444-2222' },
+                { type: 'Home', number: '(555) 999-1212' }])
+        }];
+        $(function () {
+            ko.applyBindings(new OfficialSamplesScript.Contacts.ContactsViewModel(InitialData));
+        });
+    </script>
+</hgroup>
+
+<article>
+	<p>
+		<a href="http://knockoutjs.com/examples/contactsEditor.html">Knockout Js example</a>.
+	</p>
+
+    <div id='contactsList'>
+        <table class='contactsEditor'>
+            <tr>
+                <th>First name</th>
+                <th>Last name</th>
+                <th>Phone numbers</th>
+            </tr>
+            <tbody data-bind="foreach: contacts">
+                <tr>
+                    <td>
+                        <input data-bind='value: firstName' />
+                        <div><a href='#' data-bind='click: $root.removeContact'>Delete</a></div>
+                    </td>
+                    <td>
+                        <input data-bind='value: lastName' /></td>
+                    <td>
+                        <table>
+                            <tbody data-bind="foreach: phones">
+                                <tr>
+                                    <td>
+                                        <input data-bind='value: type' /></td>
+                                    <td>
+                                        <input data-bind='value: number' /></td>
+                                    <td><a href='#' data-bind='click: $root.removePhone'>Delete</a></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <a href='#' data-bind='click: $root.addPhone'>Add number</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <p>
+        <button data-bind='click: addContact'>Add a contact</button>
+        <button data-bind='click: save, enable: contacts().length > 0'>Save to JSON</button>
+    </p>
+
+    <textarea data-bind='value: lastSavedJson' rows='5' cols='60' disabled='disabled'> </textarea>
+
+</article>
+
+

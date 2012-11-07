@@ -1,0 +1,46 @@
+﻿@{
+    ViewBag.Title = "Animated Transitions";
+}
+
+<hgroup class="title">
+    <h1>@ViewBag.Title.</h1>
+    <script type="text/javascript">
+        $(function () {
+            ko.applyBindings(new OfficialSamplesScript.AnimatedTransitions.AnimatedTransitionsViewModel());
+        });
+    </script>
+</hgroup>
+
+<article>
+	<p>
+		<a href="http://knockoutjs.com/examples/animatedTransitions.html">Knockout Js example</a>.
+	</p>
+
+	<h3>Planets</h3>
+	<p> 
+		<label>
+			<input type='checkbox' data-bind='checked: displayAdvancedOptions' />
+			Display advanced options
+		</label>
+	</p>
+ 
+	<p data-bind='fadeVisible: displayAdvancedOptions'>
+		Show:
+		<label><input type='radio' name="type" value='all' data-bind='checked: typeToShow' />All</label>
+		<label><input type='radio' name="type" value='rock' data-bind='checked: typeToShow' />Rocky planets</label>
+		<label><input type='radio' name="type" value='gasgiant' data-bind='checked: typeToShow' />Gas giants</label>
+	</p>
+ 
+	<div data-bind='template: { foreach: planetsToShow,
+                                beforeRemove: hidePlanetElement,
+                                afterAdd: showPlanetElement }'>
+		<div data-bind='attr: { "class": "planet " + type }, text: name'> </div>
+	</div>
+ 
+	<p data-bind='fadeVisible: displayAdvancedOptions'>
+		<button data-bind='click: addPlanet.bind($data, "rock")'>Add rocky planet</button>
+		<button data-bind='click: addPlanet.bind($data, "gasgiant")'>Add gas giant</button>
+	</p>
+</article>
+
+

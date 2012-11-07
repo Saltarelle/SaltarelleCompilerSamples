@@ -1,0 +1,27 @@
+﻿@{
+    ViewBag.Title = "Click Counter";
+}
+
+<hgroup class="title">
+    <h1>@ViewBag.Title.</h1>
+    <script type="text/javascript">
+        $(function () {
+            ko.applyBindings(new OfficialSamplesScript.ClickCounter.ClickCounterViewModel());
+        });
+    </script>
+</hgroup>
+
+<article>
+	<p>
+		<a href="http://knockoutjs.com/examples/clickCounter.html">Knockout Js example</a>.
+	</p>
+
+    <div>You've clicked <span data-bind='text: numberOfClicks'>&nbsp;</span> times</div>
+    <button data-bind='click: registerClick, disable: hasClickedTooManyTimes'>Click me</button>
+    <div data-bind='visible: hasClickedTooManyTimes'>
+        That's too many clicks! Please stop before you wear out your fingers.
+        <button data-bind='click: resetClicks'>Reset clicks</button>
+    </div>
+</article>
+
+
