@@ -35,6 +35,8 @@
     <Compile Include="BetterList\BetterListViewModel.cs" />
     <Compile Include="jQueryExtensions\jQueryExtensions.cs" />
     <Compile Include="jQueryExtensions\jQueryEx.cs" />
+    <Compile Include="jQueryExtensions\SimpleGrid\Column.cs" />
+    <Compile Include="jQueryExtensions\SimpleGrid\ViewModel.cs" />
     <Compile Include="ShoppingCart\CartLineViewModel.cs" />
     <Compile Include="ShoppingCart\CartViewModel.cs" />
     <Compile Include="ClickCounter\ClickCounterViewModel.cs" />
@@ -52,7 +54,7 @@
     <Compile Include="AnimatedTransitions\Planet.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ShoppingCart\SaveableProduct.cs" />
-    <Compile Include="jQueryExtensions\SimpleGrid.cs" />
+    <Compile Include="jQueryExtensions\SimpleGrid\Configuration.cs" />
     <Compile Include="SimpleList\SimpleList.cs" />
     <Compile Include="Twitter\SetupScripts.cs" />
     <Compile Include="Twitter\TweetGroup.cs" />
