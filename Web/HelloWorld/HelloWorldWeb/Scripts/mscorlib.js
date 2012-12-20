@@ -42,11 +42,13 @@ ss.coalesce = function (a, b) {
 if (typeof(window) == 'object') {
   // Browser-specific stuff that could go into the Web assembly, but that assembly does not have an associated JS file.
   if (!window.Element) {
-  // IE does not have an Element constructor. This implementation should make casting to elements work.
+    // IE does not have an Element constructor. This implementation should make casting to elements work.
     window.Element = function() {
     };
     window.Element.isInstanceOfType = function(instance) { return instance && typeof instance.constructor === 'undefined' && typeof instance.tagName === 'string'; };
   }
+  window.Element.__typeName = 'Element';
+  window.Element.__baseType = Object;
 
   if (!window.XMLHttpRequest) {
     window.XMLHttpRequest = function() {
@@ -474,6 +476,7 @@ Object.getObjectEnumerator = function Object$getObjectEnumerator(d) {
 // Boolean Extensions
 
 Boolean.__typeName = 'Boolean';
+Boolean.__baseType = Object;
 
 Boolean.getDefaultValue = Boolean.createInstance = function Boolean$getDefaultValue() {
 	return false;
@@ -483,13 +486,32 @@ Boolean.parse = function Boolean$parse(s) {
     return (s.toLowerCase() == 'true');
 };
 
+Boolean.prototype.getHashCode = function Boolean$getHashCode() {
+	return this == true ? 1 : 0;
+};
+
+Boolean.prototype.equals = function Boolean$equals(b) {
+	return this == b;
+};
+
 ///////////////////////////////////////////////////////////////////////////////
 // Number Extensions
 
 Number.__typeName = 'Number';
+Number.__baseType = Object;
 
 Number.getDefaultValue = Number.createInstance = function Number$getDefaultValue() {
 	return 0;
+};
+
+Number.prototype.getHashCode = function Number$getHashCode() {
+	var s = this.toExponential();
+	s = s.substr(0, s.indexOf('e'));
+	return parseInt(s.replace('.', ''), 10) & 0xffffffff;
+};
+
+Number.prototype.equals = function Number$equals(n) {
+	return this == n;	// Note: Loose equality because "this" will be boxed
 };
 
 Number.parse = function Number$parse(s) {
@@ -671,10 +693,21 @@ Number.prototype._netFormat = function Number$_netFormat(format, useLocale) {
 // String Extensions
 
 String.__typeName = 'String';
-String.__baseType = 'Object';
+String.__baseType = Object;
 String.__class = true;
 
 String.empty = '';
+
+String.prototype.getHashCode = function String$getHashCode() {
+	var res = 0;
+	for (var i = 0; i < this.length; i++)
+		res = (res * 31 + this.charCodeAt(i)) & 0xffffffff;
+	return res;
+};
+
+String.prototype.equals = function String$equals(s) {
+	return this == s;	// Note: Loose equality because "this" will be boxed
+};
 
 String.compare = function String$compare(s1, s2, ignoreCase) {
     if (ignoreCase) {
@@ -911,10 +944,16 @@ Array.prototype.getValue = function Array$getValue(indices) {
 	if (indices.length != (this._sizes ? this._sizes.length : 1))
 		throw 'Invalid number of indices';
 
+	if (indices[0] < 0 || indices[0] >= (this._sizes ? this._sizes[0] : this.length))
+		throw 'Index 0 out of range';
+
 	var idx = indices[0];
 	if (this._sizes) {
-		for (var i = 1; i < this._sizes.length; i++)
+		for (var i = 1; i < this._sizes.length; i++) {
+			if (indices[i] < 0 || indices[i] >= this._sizes[i])
+				throw 'Index ' + i + ' out of range';
 			idx = idx * this._sizes[i] + indices[i];
+		}
 	}
 	var r = this[idx];
 	return typeof r !== 'undefined' ? r : this._defvalue;
@@ -928,10 +967,16 @@ Array.prototype.setValue = function Array$setValue(value, indices) {
 	if (indices.length != (this._sizes ? this._sizes.length : 1))
 		throw 'Invalid number of indices';
 
+	if (indices[0] < 0 || indices[0] >= (this._sizes ? this._sizes[0] : this.length))
+		throw 'Index 0 out of range';
+
 	var idx = indices[0];
 	if (this._sizes) {
-		for (var i = 1; i < this._sizes.length; i++)
+		for (var i = 1; i < this._sizes.length; i++) {
+			if (indices[i] < 0 || indices[i] >= this._sizes[i])
+				throw 'Index ' + i + ' out of range';
 			idx = idx * this._sizes[i] + indices[i];
+		}
 	}
 	this[idx] = value;
 };
@@ -1185,10 +1230,18 @@ RegExp.__class = true;
 // Date Extensions
 
 Date.__typeName = 'Date';
-Date.__baseType = 'Object';
+Date.__baseType = Object;
 
 Date.getDefaultValue = Date.createInstance = function Date$getDefaultValue() {
 	return new Date(0);
+};
+
+Date.prototype.getHashCode = function Date$getHashCode() {
+	return this.valueOf() & 0xffffffff;
+};
+
+Date.prototype.equals = function Date$equals(d) {
+	return this.valueOf() === d.valueOf();
 };
 
 Date.get_now = function Date$get_now() {
@@ -1942,6 +1995,26 @@ ss_IEnumerable.isAssignableFrom = function IEnumerable$isAssignableFrom(type) {
 Type.registerInterface(global, 'ss.IEnumerable', ss_IEnumerable);
 
 ///////////////////////////////////////////////////////////////////////////////
+// IEquatable
+
+var ss_IEquatable = function IEquatable$() { };
+ss_IEquatable.prototype = {
+    equals: null
+};
+
+Type.registerInterface(global, 'ss.IEquatable', ss_IEquatable);
+
+///////////////////////////////////////////////////////////////////////////////
+// IHashable
+
+var ss_IHashable = function IHashable$() { };
+ss_IHashable.prototype = {
+    getHashCode: null
+};
+
+Type.registerInterface(global, 'ss.IHashable', ss_IHashable, ss_IEquatable);
+
+///////////////////////////////////////////////////////////////////////////////
 // IEnumerable
 
 var ss_ICollection = function ICollection$() { };
@@ -2211,15 +2284,56 @@ Type.registerClass(global, 'ss.ObjectEnumerator', ss_ObjectEnumerator, null, [ss
 
 ///////////////////////////////////////////////////////////////////////////////
 // Dictionary
+var ss_$DictionaryCollection = function $DictionaryCollection$(dict, isKeys) {
+	this._dict = dict;
+	this._isKeys = isKeys;
+};
+ss_$DictionaryCollection.prototype = {
+	get_count: function $DictionaryCollection$get_count() {
+		return this._dict.get_count();
+	},
+	contains: function $DictionaryCollection$contains(v) {
+		if (this._isKeys) {
+			return this._dict.containsKey(v);
+		}
+		else {
+			for (var e in this._dict.buckets) {
+				if (this._dict.buckets.hasOwnProperty(e)) {
+					var bucket = this._dict.buckets[e];
+					for (var i = 0; i < bucket.length; i++) {
+						if (bucket[i].value.equals(v))
+							return true;
+					}
+				}
+			}
+			return false;
+		}
+	},
+	getEnumerator: function $DictionaryCollection$getEnumerator(v) {
+		return this._dict._getEnumerator(this._isKeys ? function(e) { return e.key; } : function(e) { return e.value; });
+	},
+	add: function $DictionaryCollection$add(v) {
+		throw 'Collection is read-only';
+	},
+	clear: function $DictionaryCollection$clear() {
+		throw 'Collection is read-only';
+	},
+	remove: function $DictionaryCollection$remove() {
+		throw 'Collection is read-only';
+	}
+};
+
 var ss_Dictionary$2 = function Dictionary$2$(TKey, TValue) {
 	var $type = function(o) {
-		this._o = {};
+		this.countField = 0;
+		this.buckets = {};
+
 		if (ss_IDictionary.isInstanceOfType(o)) {
 			var e = Type.cast(o, ss_IDictionary).getEnumerator();
 			try {
 				while (e.moveNext()) {
 					var c = e.get_current();
-					this._o[c.key] = c.value;
+					this.add(c.key, c.value);
 				}
 			}
 			finally {
@@ -2231,51 +2345,64 @@ var ss_Dictionary$2 = function Dictionary$2$(TKey, TValue) {
 		else if (o) {
 			var keys = Object.keys(o);
 			for (var i = 0; i < keys.length; i++) {
-				this._o[keys[i]] = o[keys[i]];
+				this.add(keys[i], o[keys[i]]);
 			}
 		}
 	};
+
 	$type.prototype = {
-		get_count: function Dictionary$2$get_count() {
-			return Object.getKeyCount(this._o);
+		_setOrAdd: function(key, value, add) {
+			var hash = key.getHashCode();
+			var entry = { key: key, value: value };
+			if (this.buckets.hasOwnProperty(hash)) {
+				var array = this.buckets[hash];
+				for (var i = 0; i < array.length; i++) {
+					if (array[i].key.equals(key)) {
+						if (add)
+							throw 'Key ' + key + ' already exists.';
+						array[i] = entry;
+						return;
+					}
+				}
+				array.push(entry);
+			} else {
+				this.buckets[hash] = [entry];
+			}
+			this.countField++;
 		},
-		get_keys: function Dictionary$2$get_keys() {
-			return Object.keys(this._o);
+
+		add: function(key, value) {
+			this._setOrAdd(key, value, true);
 		},
-		get_values: function Dictionary$2$get_values() {
-			var result = [];
-			var keys = Object.keys(this._o);
-			for (var i = 0; i < keys.length; i++)
-				result.push(this._o[keys[i]]);
-			return result;
+
+		set_item: function(key, value) {
+			this._setOrAdd(key, value, false);
 		},
-		get_item: function Dictionary$2$get_item(key) {
-			if (!Object.keyExists(this._o, key))
+
+		_get: function(key) {
+			var hash = key.getHashCode();
+			if (this.buckets.hasOwnProperty(hash)) {
+				var array = this.buckets[hash];
+				for (var i = 0; i < array.length; i++) {
+					var entry = array[i];
+					if (entry.key.equals(key))
+						return entry.value !== undefined ? entry.value : null;
+				}
+			}
+			return undefined;
+		},
+
+		get_item: function(key) {
+			var v = this._get(key);
+			if (v === undefined)
 				throw 'Key ' + key + ' does not exist.';
-			return this._o[key];
+			return v;
 		},
-		set_item: function Dictionary$2$set_item(key, value) {
-			this._o[key] = value;
-		},
-		add: function Dictionary$2$add(key, value) {
-			if (Object.keyExists(this._o, key))
-				throw 'Key ' + key + ' already exists.';
-			this._o[key] = value;
-		},
-		getEnumerator: function Dictionary$2$getEnumerator() {
-			return new ss_ObjectEnumerator(this._o);
-		},
-		remove: function Dictionary$2$remove(key, value) {
-			var result = Object.keyExists(this._o, key);
-			delete this._o[key];
-			return result;
-		},
-		containsKey: function Dictionary$2$containsKey(key) {
-			return Object.keyExists(this._o, key);
-		},
-		tryGetValue: function Dictionary$2$tryGetValue(key, value) {
-			if (Object.keyExists(this._o, key)) {
-				value.$ = this._o[key];
+
+		tryGetValue: function(key, value) {
+			var v = this._get(key);
+			if (v !== undefined) {
+				value.$ = v;
 				return true;
 			}
 			else {
@@ -2283,14 +2410,79 @@ var ss_Dictionary$2 = function Dictionary$2$(TKey, TValue) {
 				return false;
 			}
 		},
-		clear: function Dictionary$2$clear() {
-			Object.clearKeys(this._o);
+
+		containsKey: function(key) {
+			var hash = key.getHashCode();
+			if (!this.buckets.hasOwnProperty(hash))
+				return false;
+
+			var array = this.buckets[hash];
+			for (var i = 0; i < array.length; i++) {
+				if (array[i].key.equals(key))
+					return true;
+			}
+			return false;
+		},
+
+		clear: function() {
+			this.countField = 0;
+			this.buckets = {};
+		},
+
+		remove: function(key) {
+			var hash = key.getHashCode();
+			if (!this.buckets.hasOwnProperty(hash))
+				return false;
+
+			var array = this.buckets[hash];
+			for (var i = 0; i < array.length; i++) {
+				if (array[i].key.equals(key)) {
+					array.splice(i, 1);
+					if (array.length == 0) delete this.buckets[hash];
+					this.countField--;
+					return true;
+				}
+			}
+			return false;
+		},
+
+		get_count: function() {
+			return this.countField;
+		},
+
+		_getEnumerator: function(projector) {
+			var bucketKeys = Object.keys(this.buckets), bucketIndex = -1, arrayIndex;
+			return new ss_IteratorBlockEnumerator(function() {
+				if (bucketIndex < 0 || arrayIndex >= (this.buckets[bucketKeys[bucketIndex]].length - 1)) {
+					arrayIndex = -1;
+					bucketIndex++;
+				}
+				if (bucketIndex >= bucketKeys.length)
+					return false;
+				arrayIndex++;
+				return true;
+			}, function() { return projector(this.buckets[bucketKeys[bucketIndex]][arrayIndex]); }, null, this);
+		},
+
+		get_keys: function() {
+			return new ss_$DictionaryCollection(this, true);
+		},
+
+		get_values: function() {
+			return new ss_$DictionaryCollection(this, false);
+		},
+
+		getEnumerator: function() {
+			return this._getEnumerator(function(e) { return e; });
 		}
 	};
-	$type.registerGenericClassInstance($type, ss_Dictionary$2, [TKey, TValue], function() { return null }, function() { return [ ss_IDictionary, ss_IEnumerable ] });
+
+	$type.registerGenericClassInstance($type, ss_Dictionary$2, [TKey, TValue], function() { return null; }, function() { return [ ss_IDictionary, ss_IEnumerable ]; });
 	return $type;
 };
+
 Type.registerGenericClass(global, 'ss.Dictionary$2', ss_Dictionary$2, 2);
+Type.registerClass(global, 'ss.$DictionaryCollection', ss_$DictionaryCollection, null, [ss_IEnumerable, ss_ICollection]);
 
 ///////////////////////////////////////////////////////////////////////////////
 // IDisposable
