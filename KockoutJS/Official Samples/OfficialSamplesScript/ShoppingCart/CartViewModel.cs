@@ -38,7 +38,7 @@ namespace OfficialSamplesScript.ShoppingCart
 		}
 
         public ObservableArray<CartLineViewModel> Lines;
-        public DependentObservable<double> GrandTotal;
+        public ComputedObservable<double> GrandTotal;
 		public Action AddLine;
 		public Action<CartLineViewModel> RemoveLine;
 		public Action Save;

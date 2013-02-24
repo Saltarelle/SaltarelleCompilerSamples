@@ -1,0 +1,2 @@
+1.9.0
+Initial version with jQuery 1.9.1

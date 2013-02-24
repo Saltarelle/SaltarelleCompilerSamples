@@ -5,7 +5,7 @@ namespace KnockoutApi.SimpleGrid
 
 	[ScriptNamespace("ko.simpleGrid")]
 	[Serializable]
-	[Imported(IsRealType = true, IgnoreGenericArguments = true)]
+	[Imported]
 	public class Configuration<T>
 	{
 		[ObjectLiteral]

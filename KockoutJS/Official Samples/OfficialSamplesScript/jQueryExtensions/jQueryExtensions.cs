@@ -7,7 +7,7 @@ namespace OfficialSamplesScript.Gifts
 
 	using jQueryApi;
 
-	[Imported(IsRealType = true)]
+	[Imported]
 	public static class JavaScriptExtensions
 	{
 		[InstanceMethodOnFirstArgument]
@@ -18,7 +18,7 @@ namespace OfficialSamplesScript.Gifts
 	}
 
 	[Serializable]
-	[Imported(IsRealType = true)]
+	[Imported]
 	public class ValidationOptions
 	{
 		public object SubmitHandler;

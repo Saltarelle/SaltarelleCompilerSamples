@@ -109,11 +109,11 @@ namespace OfficialSamplesScript.Twitter
 		public ObservableArray<object> CurrentTweets;
 		public Func<string, TweetGroup> FindSavedList;
 		public Action AddUser;
-		public DependentObservable<bool> UserNameToAddIsValid; 
+		public ComputedObservable<bool> UserNameToAddIsValid; 
 		public Action<string> RemoveUser;
 		public Action SaveChanges;
 		public Action DeleteList;
-		public DependentObservable<bool> HasUnsavedChanges;
-		public DependentObservable<bool> CanAddUserName;
+		public ComputedObservable<bool> HasUnsavedChanges;
+		public ComputedObservable<bool> CanAddUserName;
 	}
 }

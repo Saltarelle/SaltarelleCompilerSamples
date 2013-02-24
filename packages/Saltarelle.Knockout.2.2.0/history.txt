@@ -1,0 +1,2 @@
+2.2.0
+Initial version with knockout 2.2.0

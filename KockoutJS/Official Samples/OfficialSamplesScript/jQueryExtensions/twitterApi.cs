@@ -5,7 +5,7 @@ namespace OfficialSamplesScript.Twitter
 
 	[IgnoreNamespace]
     [ScriptName("twitterApi")]
-    [Imported(IsRealType = true)]
+    [Imported]
 	public class TwitterApi
 	{
 		public static void GetTweetsForUsers<T>(string[] usernames, Action<T> currentTweets) {}

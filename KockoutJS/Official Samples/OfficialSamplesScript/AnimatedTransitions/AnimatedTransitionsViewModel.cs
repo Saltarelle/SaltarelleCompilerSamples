@@ -81,7 +81,7 @@ namespace OfficialSamplesScript.AnimatedTransitions
         public Observable<string> TypeToShow;
 		public Observable<bool> DisplayAdvancedOptions;
 		public Action<string> AddPlanet;
-		public DependentObservable<Planet[]> PlanetsToShow;
+		public ComputedObservable<Planet[]> PlanetsToShow;
 
 		public Action<Element> ShowPlanetElement;
 		public Action<Element> HidePlanetElement;

@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Saltarelle.NodeJS</name>
+    </assembly>
+    <members>
+        <member name="M:NodeJS.Require.Load(System.String)">
+            <summary>
+            Equivalent to 'require(module)' in JS.
+            </summary></member>
+        <member name="P:NodeJS.HttpModule.RequestOptions.Agent">
+            <summary>
+            Possible values are: Script.Undefined, an Agent, or 'false'
+            </summary></member>
+    </members>
+</doc>

@@ -40,6 +40,6 @@ namespace OfficialSamplesScript.Person
 
         public Observable<string> FirstName;
         public Observable<string> LastName;
-        public DependentObservable<string> FullName;
+        public ComputedObservable<string> FullName;
     }
 }

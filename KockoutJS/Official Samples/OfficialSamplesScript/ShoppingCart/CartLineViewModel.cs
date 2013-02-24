@@ -28,6 +28,6 @@ namespace OfficialSamplesScript.ShoppingCart
         public Observable<string> Category;
         public Observable<Product> Product;
         public Observable<int> Quantity;
-        public DependentObservable<double> Subtotal;
+        public ComputedObservable<double> Subtotal;
 	}
 }

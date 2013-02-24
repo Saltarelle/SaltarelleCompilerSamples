@@ -5,7 +5,7 @@ namespace jQueryApi
 
 	[ScriptName("$")]
 	[IgnoreNamespace]
-	[Imported(IsRealType = true)]
+	[Imported]
 	public static class jQueryEx
 	{
 		public static jQueryObject AjaxPrefilter(Action<jQueryAjaxOptions> action)

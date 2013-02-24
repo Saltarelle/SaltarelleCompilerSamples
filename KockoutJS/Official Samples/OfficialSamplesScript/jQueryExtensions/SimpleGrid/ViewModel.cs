@@ -2,7 +2,7 @@ namespace KnockoutApi.SimpleGrid
 {
     using System.Runtime.CompilerServices;
 
-    [Imported(IsRealType = true, IgnoreGenericArguments = true)]
+    [Imported]
     [ScriptNamespace("ko.simpleGrid")]
     [ScriptName("viewModel")]
     public class ViewModel<T>

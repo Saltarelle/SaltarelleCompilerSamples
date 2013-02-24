@@ -1,0 +1,8 @@
+1.9.2
+Fixed issues with @-signs in the metadata.
+
+1.9.1
+Fixed build issue that caused package built on CI server (eg. NuGet download) to always be empty.
+
+1.9.0
+Initial version with jQuery.UI 1.9.2

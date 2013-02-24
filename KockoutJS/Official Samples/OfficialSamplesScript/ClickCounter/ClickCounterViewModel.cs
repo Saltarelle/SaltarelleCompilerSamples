@@ -19,6 +19,6 @@ namespace OfficialSamplesScript.ClickCounter
 		public Observable<int> NumberOfClicks;
 		public Action RegisterClick;
 		public Action ResetClicks;
-		public DependentObservable<bool> HasClickedTooManyTimes;
+		public ComputedObservable<bool> HasClickedTooManyTimes;
 	}
 }
