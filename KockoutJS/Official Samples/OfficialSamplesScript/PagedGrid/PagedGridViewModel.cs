@@ -1,7 +1,6 @@
 namespace OfficialSamplesScript.PagedGrid
 {
 	using System;
-	using System.Runtime.CompilerServices;
 	using KnockoutApi;
 	using KnockoutApi.SimpleGrid;
 
@@ -19,13 +18,13 @@ namespace OfficialSamplesScript.PagedGrid
 			AddItem = () => self.Items.Push(new Data("New Item", 0, 100));
 			SortByName = () => self.Items.Sort((a, b) => a.Name.CompareTo(b.Name));
             JumpToFirstPage = () => { self.GridViewModel.CurrentPageIndex.Value = 0; };
-			GridViewModel = new ViewModel<Data>(new ViewModelConfiguration<Data> (
+			GridViewModel = new ViewModel<Data>(new Configuration<Data> (
 				pageSize: 4,
 				data: self.Items,
 				columns: Knockout.ObservableArray(new[] {
-					new Column<Data>("Item Name", rowText: "name"), //
-					new Column<Data>("Sales Count", "sales"), //
-					new Column<Data>("Price", item => "R" + item.Price.ToFixed(2)) //
+					new Column<Data>("Item Name", "name"), 
+					new Column<Data>("Sales Count", "sales"), 
+					new Column<Data>("Price", item => "R " + item.Price.ToFixed(2)) 
 				}
 			)));
 		}

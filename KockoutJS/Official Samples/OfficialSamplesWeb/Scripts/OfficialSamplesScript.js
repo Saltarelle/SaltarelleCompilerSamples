@@ -264,7 +264,7 @@ var $OfficialSamplesScript_PagedGrid_PagedGridViewModel = function(items) {
 	this.gridViewModel = new ko.simpleGrid.viewModel({ pageSize: 4, data: self.items, columns: ko.observableArray([{ headerText: 'Item Name', rowText: 'name' }, { headerText: 'Sales Count', rowText: 'sales' }, {
 		headerText: 'Price',
 		rowText: function(item) {
-			return 'R' + item.price.toFixed(2);
+			return 'R ' + item.price.toFixed(2);
 		}
 	}]) });
 };
